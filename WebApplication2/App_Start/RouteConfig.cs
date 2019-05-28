@@ -18,6 +18,9 @@ namespace WebApplication2
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Default", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute("display", "display/{ip}/{port}", defaults: new { controller = "Home", action = "display" });
         }
+
     }
 }

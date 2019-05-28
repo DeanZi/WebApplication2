@@ -11,8 +11,7 @@ namespace WebApplication2.Controllers
         // GET: Default
         public ActionResult Index()
         {
-            InfoViewModel vm = new InfoViewModel();
-            vm.Connect();
+         
             return View();
         }
     }
