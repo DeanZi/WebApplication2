@@ -10,11 +10,13 @@ namespace WebApplication2.Controllers
 {
     public class DefaultController : Controller
     {
+        public string[] details;
         // GET: Home
         public ActionResult Index(string ip, int port)
         {
-
             Start(ip, port);
+            ViewBag.lon = details[0];
+            ViewBag.lat = details[1];
             return View();
         }
 
@@ -53,7 +55,7 @@ namespace WebApplication2.Controllers
                 char[] charsToTrim = { ' ', '?' };
                 string phrase = Encoding.Default.GetString(msg).Trim(charsToTrim);
                 Console.WriteLine(phrase); //we print the filtered input from the client
-                string[] details = phrase.Split(',', '\n');
+                details = phrase.Split(',', '\n');
             details[0]=details[0].Replace("/position/longitude-deg = '", "");
             details[0] = details[0].Replace("' (double)\r", "");
             details[1] = details[1].Replace("/> /position/latitude-deg = '", "");
@@ -63,7 +65,7 @@ namespace WebApplication2.Controllers
             /*    if (details[0] != "" && details[1] != "")
                     Update(Convert.ToDouble(details[0]), Convert.ToDouble(details[1]));//we take the interesting first two
               */  //pieces of information which stands for Lat and Lon and update our fields accordinglly.
-                  //}
+             //     }
 
             ns.Close();
             server.Close();

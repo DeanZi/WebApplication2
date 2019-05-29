@@ -6,6 +6,11 @@
 <head>
     <style>
 
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+ 
         * {
             margin: 0;
             padding: 0;
@@ -16,14 +21,31 @@
             height: 100%;
         }
 
-        .center-fit {
-            max-width: 100%;
-            max-height: 100vh;
-        }
     </style>
 </head>
-<body style="padding: 0;">
-    <h3 style="margin: 0; padding: 0;"></h3>
-    <img class="center-fit" src='~/Images/Index.png'>
+<body>
+    <canvas id="myCanvas"></canvas>
+    <script>
+        (function () {
+            var img = new Image();
+            var canvas = document.getElementById("myCanvas");
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            var ctx = canvas.getContext("2d");
+            img.onload = function () {
+                ctx.lineWidth = '500';
+                ctx.fillStyle = "red";
+                ctx.drawImage(img, 0, 0, window.innerWidth, window.innerHeight);
+                ctx.beginPath();
+                var lon = (@ViewBag.lon + 180) * (canvas.width / 360);
+                var lat = (@ViewBag.lat + 90) * (canvas.height / 180);
+                ctx.arc(500, 500, 7, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.stroke();
+            }
+            img.src = '~/Images/Index.png';
+        })();
+    </script>
+
 </body>
 </html>
