@@ -1,8 +1,29 @@
-﻿
-@{
-    
+﻿@{
+
     ViewBag.Title = "View";
 }
-<img src="~/Images/Index.png" alt="Sample Photo" style="width:1200px; height: 500px" />
+<html>
+<head>
+    <style>
 
+        * {
+            margin: 0;
+            padding: 0;
+        }
 
+        .imgbox {
+            display: grid;
+            height: 100%;
+        }
+
+        .center-fit {
+            max-width: 100%;
+            max-height: 100vh;
+        }
+    </style>
+</head>
+<body style="padding: 0;">
+    <h3 style="margin: 0; padding: 0;"></h3>
+    <img class="center-fit" src='~/Images/Index.png'>
+</body>
+</html>
