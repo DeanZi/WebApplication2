@@ -20,10 +20,17 @@ namespace WebApplication2
             );*/
 
             routes.MapRoute(
-                name: "Default",
+                name: "FirstMission",
                 url: "display/{ip}/{port}",
                 defaults: new { controller = "Default", action = "Index" }
           );
+
+
+            routes.MapRoute(
+              name: "SecondMission",
+              url: "display/{ip}/{port}/{frequency}",
+              defaults: new { controller = "Default", action = "StartDrawing" }
+        );
         }
 
     }
