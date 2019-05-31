@@ -25,6 +25,8 @@ namespace WebApplication2
                 defaults: new { controller = "Default", action = "Index" }
           );
 
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
 
             routes.MapRoute(
               name: "SecondMission",

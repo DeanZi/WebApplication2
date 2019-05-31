@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "StartDrawing";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <style>
+        html
+        body {
+            background-image: url("/Images/Index.png");
+            background-attachment: fixed;
+            background-size: 100% 100%;
+            background-position: center center;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas"></canvas>
+    <script>
+    var Canvas = document.getElementById("myCanvas");
+    var frequency = @Session["time"]* 1000
+    Canvas.height = window.innerHeight;
+    Canvas.width = window.innerWidth;
+    var ctx = Canvas.getContext("2d");
+    var prevLon = (@ViewBag.lon + 180) * (Canvas.width / 360);
+    var prevLat = (@ViewBag.lat + 90) * (Canvas.height / 180);
+        (function () { drawCircle(prevLon, prevLat, ctx); });
+    Locations = [];
+    timer = (function () {
+            $.post("@Url.Action("generateXml")").done(function (xml) {
+                var xmlFile = $.parseXML(xml);
+                $xml = $(xmlFile);
+                Lat = ((parseFloat($xml.find("Lat").text())) + 90) * (Canvas.height / 180);
+                Lon = ((parseFloat($xml.find("Lon").text())) + 180) * (Canvas.width / 360);
+                var point = { x: Lon, y: Lat };
+                Locations.push(point);
+                generatePath(prevLon, prevLat, Locations, ctx);
+            });
+
+         });
+        setInterval(timer, frequency);
+        timer();
+
+    </script>
+</body>
+</html>
