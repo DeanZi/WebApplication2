@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 
@@ -41,6 +42,7 @@ namespace WebApplication2.Controllers
             }
             while (server.Connected)
             {
+                Thread.Sleep(250);
                 NetworkStream ns = server.GetStream();
                 cmds[0] = longitude;
                 cmds[1] = latitude;
