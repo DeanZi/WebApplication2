@@ -33,35 +33,51 @@
 <body>
     <canvas id="myCanvas"></canvas>
     <script>
-    var canvas = document.getElementById("myCanvas");
-    var frequency = @Session["time"]* 1000
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
-    var ctx = canvas.getContext("2d");
-    var prevLon = (@ViewBag.lon + 180) * (canvas.width / 360);
-    var prevLat = (@ViewBag.lat + 90) * (canvas.height / 180);
-    ctx.lineWidth = '3';
-    ctx.strokeStyle = "white";
-    ctx.beginPath();
-    ctx.arc(prevLon, prevLat, 5, 0, 2 * Math.PI);
-    ctx.fillStyle = "red";
-    ctx.fill();
-    ctx.stroke();
-    Locations = [];
-    timer = (function () {
-            $.post("@Url.Action("generateXml")").done(function (xml) {
-                var xmlFile = $.parseXML(xml);
-                $xml = $(xmlFile);
-                Lat = ((parseFloat($xml.find("Lat").text())) + 90) * (canvas.height / 180);
-                Lon = ((parseFloat($xml.find("Lon").text())) + 180) * (canvas.width / 360);
-                var point = { x: Lon, y: Lat };
-                Locations.push(point);
-                generatePath(prevLon, prevLat, Locations, ctx);
-            });
+        var canvas = document.getElementById("myCanvas");
+        var frequency = @Session["time"]* 1000
+        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth;
+        var ctx = canvas.getContext("2d");
+        var prevLon = (@ViewBag.lon + 180) * (canvas.width / 360);
+        var prevLat = (@ViewBag.lat + 90) * (canvas.height / 180);
+        ctx.lineWidth = '4';
+        ctx.strokeStyle = "green";
+        ctx.beginPath();
+        ctx.arc(prevLon, prevLat, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = "red";
+        ctx.fill();
+        ctx.stroke();
+        Locations = [];
+        var point1 = { x: 538.76, y: 567.68};
+        var point2 = { x: 356.543, y: 346.5498 };
+        var point3 = { x: 0, y: 0 };
+        ctx.beginPath();
+        ctx.strokeStyle = "red";
+        ctx.moveTo(prevLon, prevLat);
+        ctx.lineTo(point1.x, point1.y);
+        ctx.lineTo(point2.x, point2.y);
+        ctx.stroke();
 
-         });
-        setInterval(timer, frequency);
-        timer();
+       // timer = (function () {
+         //       $.post("").done(function (xml) {"
+                    //var xmlFile = $.parseXML(xml);
+                    //$xml = $(xmlFile);
+                    //Lat = ((parseFloat($xml.find("Lat").text())) + 90) * (canvas.height / 180);
+                    //Lon = ((parseFloat($xml.find("Lon").text())) + 180) * (canvas.width / 360);
+                    //var point = { x: Lon, y: Lat };
+                    //Locations.push(point);
+                    //ctx.beginPath();
+                   // ctx.moveTo(prevLon, prevLat);
+                 //   for (var i = 0; i < Locations.length; i++) {
+                      //  ctx.lineTo(Locations[i].x, Locations[i].y);
+                    //    ctx.strokeStyle = "red";
+                  //      ctx.stroke();
+                //    }
+              //  });
+            //    });
+          //  setInterval(timer, frequency);
+        //timer();
+        //
 
     </script>
 </body>

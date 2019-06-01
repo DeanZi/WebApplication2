@@ -95,7 +95,7 @@
     <Content Include="Images\Index.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Views\Shared\generatePath.js" />
+    <Content Include="generatePath.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
