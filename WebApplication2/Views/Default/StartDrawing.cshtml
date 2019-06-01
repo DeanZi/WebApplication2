@@ -33,21 +33,27 @@
 <body>
     <canvas id="myCanvas"></canvas>
     <script>
-    var Canvas = document.getElementById("myCanvas");
+    var canvas = document.getElementById("myCanvas");
     var frequency = @Session["time"]* 1000
-    Canvas.height = window.innerHeight;
-    Canvas.width = window.innerWidth;
-    var ctx = Canvas.getContext("2d");
-    var prevLon = (@ViewBag.lon + 180) * (Canvas.width / 360);
-    var prevLat = (@ViewBag.lat + 90) * (Canvas.height / 180);
-        (function () { drawCircle(prevLon, prevLat, ctx); });
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+    var ctx = canvas.getContext("2d");
+    var prevLon = (@ViewBag.lon + 180) * (canvas.width / 360);
+    var prevLat = (@ViewBag.lat + 90) * (canvas.height / 180);
+    ctx.lineWidth = '3';
+    ctx.strokeStyle = "white";
+    ctx.beginPath();
+    ctx.arc(prevLon, prevLat, 5, 0, 2 * Math.PI);
+    ctx.fillStyle = "red";
+    ctx.fill();
+    ctx.stroke();
     Locations = [];
     timer = (function () {
             $.post("@Url.Action("generateXml")").done(function (xml) {
                 var xmlFile = $.parseXML(xml);
                 $xml = $(xmlFile);
-                Lat = ((parseFloat($xml.find("Lat").text())) + 90) * (Canvas.height / 180);
-                Lon = ((parseFloat($xml.find("Lon").text())) + 180) * (Canvas.width / 360);
+                Lat = ((parseFloat($xml.find("Lat").text())) + 90) * (canvas.height / 180);
+                Lon = ((parseFloat($xml.find("Lon").text())) + 180) * (canvas.width / 360);
                 var point = { x: Lon, y: Lat };
                 Locations.push(point);
                 generatePath(prevLon, prevLat, Locations, ctx);
