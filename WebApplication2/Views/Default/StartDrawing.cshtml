@@ -4,11 +4,9 @@
 }
 
 <!DOCTYPE html>
-
 <html>
 <head>
     <style>
-        html
         body {
             background-image: url("/Images/Index.png");
             background-attachment: fixed;
@@ -34,7 +32,7 @@
     <canvas id="myCanvas"></canvas>
     <script>
         var canvas = document.getElementById("myCanvas");
-        var frequency = @Session["time"]* 1000
+        var IntervalTime = @Session["time"]* 250
         canvas.height = window.innerHeight;
         canvas.width = window.innerWidth;
         var ctx = canvas.getContext("2d");
@@ -48,36 +46,29 @@
         ctx.fill();
         ctx.stroke();
         Locations = [];
-        var point1 = { x: 538.76, y: 567.68};
-        var point2 = { x: 356.543, y: 346.5498 };
-        var point3 = { x: 0, y: 0 };
-        ctx.beginPath();
-        ctx.strokeStyle = "red";
-        ctx.moveTo(prevLon, prevLat);
-        ctx.lineTo(point1.x, point1.y);
-        ctx.lineTo(point2.x, point2.y);
-        ctx.stroke();
 
-       // timer = (function () {
-         //       $.post("").done(function (xml) {"
-                    //var xmlFile = $.parseXML(xml);
-                    //$xml = $(xmlFile);
-                    //Lat = ((parseFloat($xml.find("Lat").text())) + 90) * (canvas.height / 180);
-                    //Lon = ((parseFloat($xml.find("Lon").text())) + 180) * (canvas.width / 360);
-                    //var point = { x: Lon, y: Lat };
-                    //Locations.push(point);
-                    //ctx.beginPath();
-                   // ctx.moveTo(prevLon, prevLat);
-                 //   for (var i = 0; i < Locations.length; i++) {
-                      //  ctx.lineTo(Locations[i].x, Locations[i].y);
-                    //    ctx.strokeStyle = "red";
-                  //      ctx.stroke();
-                //    }
-              //  });
-            //    });
-          //  setInterval(timer, frequency);
-        //timer();
-        //
+        myTimer = (function () {
+            $.post("@Url.Action("generateXml")").done(function (xml) {
+                var xmlDoc = $.parseXML(xml),
+                $xml = $(xmlDoc),
+                Lon = ((parseFloat($xml.find("Lon").text())) + 180) * (canvas.width / 360);
+                Lat = ((parseFloat($xml.find("Lat").text())) + 90) * (canvas.height / 180);
+
+                var point = { x: Lon, y: Lat };
+                ctx.closePath();
+                ctx.beginPath();
+                ctx.strokeStyle = "red";
+                ctx.moveTo(Lon, Lat);
+                Locations.push(point);
+                for (var i = 0; i < Locations.length; i++) {
+                    ctx.lineTo(100, 100);
+                }
+                ctx.stroke();
+            });
+         });
+
+    setInterval(myTimer, IntervalTime);
+    myTimer();
 
     </script>
 </body>
